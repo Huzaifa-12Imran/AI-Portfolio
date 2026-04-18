@@ -208,7 +208,7 @@ export default function HeroSection({ loaded }: { loaded: boolean }) {
             transform: 'rotate(45deg)',
             zIndex: 50,
             cursor: 'grab',
-            display: 'flex', alignItems: 'center', justifyCenter: 'center'
+            display: 'flex', alignItems: 'center', justifyContent: 'center'
           }}
           whileHover={{ scale: 1.1, backgroundColor: 'rgba(175,112,32,0.15)', borderColor: 'var(--gold)' }}
           whileDrag={{ scale: 1.25, backgroundColor: 'rgba(175,112,32,0.2)', cursor: 'grabbing', zIndex: 60 }}
