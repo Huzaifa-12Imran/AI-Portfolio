@@ -18,7 +18,9 @@ export default function ChatBlogContact() {
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messages.length > 1 || typing) {
+      endRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
   }, [messages, typing]);
 
   const send = async (text: string) => {
