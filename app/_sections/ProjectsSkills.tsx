@@ -165,7 +165,7 @@ export default function ProjectsSkills() {
                 
                 <div className="flex flex-col lg:items-end gap-1 max-w-sm">
                    <span style={{ fontFamily: 'var(--display)', fontSize: '24px', color: 'var(--ink)', opacity: 0.6 }}>YEAR: {p.year}</span>
-                   <p style={{ fontFamily: 'var(--sans)', fontSize: '14px', color: 'var(--muted)', margin: 0, lineHeight: 1.6, textAlign: 'left', lg: { textAlign: 'right' } }}>
+                   <p className="text-left lg:text-right" style={{ fontFamily: 'var(--sans)', fontSize: '14px', color: 'var(--muted)', margin: 0, lineHeight: 1.6 }}>
                       {p.desc}
                    </p>
                 </div>
