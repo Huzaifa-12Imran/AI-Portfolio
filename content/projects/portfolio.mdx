@@ -1,0 +1,29 @@
+---
+title: "AI Portfolio Assistant"
+description: "A RAG-powered chatbot trained on personal docs and résumé."
+techStack: ["Next.js", "TypeScript", "Gemini AI", "Supabase", "pgvector"]
+status: "active"
+featured: true
+stars: 213
+githubUrl: "https://github.com/Huzaifa-12Imran/ai-chatbot"
+---
+
+# AI Portfolio Assistant
+
+A production-grade RAG pipeline built on Next.js 15 and Google Gemini.
+Visitors can ask questions about Huzaifa's work and get grounded, accurate answers.
+
+## How It Works
+
+1. Content is chunked and embedded using Gemini text-embedding-004
+2. Vectors are stored in Supabase pgvector  
+3. User questions are embedded at query time
+4. Top-K similar chunks are injected into the Gemini prompt
+5. Responses are streamed back to the client
+
+## Technical Highlights
+
+- Edge runtime for low-latency streaming
+- Upstash Redis caching GitHub API responses (1 hour TTL)
+- Framer Motion transitions and D3.js visualization charts
+- Graceful mock fallbacks for local development without API keys

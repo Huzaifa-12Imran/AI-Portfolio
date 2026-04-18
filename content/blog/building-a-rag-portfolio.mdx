@@ -1,0 +1,27 @@
+---
+title: "Building a RAG-Powered Portfolio with Gemini & pgvector"
+date: "2025-03-15"
+excerpt: "How I built an AI assistant that answers questions about my projects using retrieval-augmented generation, Supabase pgvector, and Google Gemini."
+tags: ["AI", "Next.js", "Supabase", "RAG"]
+---
+
+# Building a RAG-Powered Portfolio with Gemini & pgvector
+
+Most developer portfolios are graveyards — a list of projects and a headshot. This one responds, adapts, and proves skills live.
+
+## The Architecture
+
+Three layers: Next.js 15 frontend, API routes for GitHub data and AI chat, and Supabase storing embeddings for RAG.
+
+## The RAG Pipeline
+
+1. Chunk MDX content into ~500-word segments
+2. Embed each chunk using Gemini text-embedding-004
+3. Store in Supabase pgvector
+4. At query time: embed the question, find similar chunks, inject as context
+
+## Key Lessons
+
+- pgvector + Supabase is the fastest path to production RAG
+- Gemini 2.0 Flash streams responses under 500ms
+- Mock fallbacks everywhere means the portfolio looks great without API keys

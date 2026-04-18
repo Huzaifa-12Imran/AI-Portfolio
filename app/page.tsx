@@ -1,65 +1,101 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import { useEffect, useState } from 'react';
+import HeroSection     from './_sections/HeroSection';
+import AboutSection    from './_sections/AboutSection';
+import GitHubActivity  from './_sections/GitHubActivity';
+import ProjectsSkills  from './_sections/ProjectsSkills';
+import ChatBlogContact from './_sections/ChatBlogContact';
+
+const NAV_LINKS = [
+  { label: '01. About',    href: '#about'    },
+  { label: '02. Code',     href: '#github'   },
+  { label: '03. Projects', href: '#projects' },
+  { label: '04. Contact',  href: '#contact'  },
+];
+
+export default function HomePage() {
+  const [loaded, setLoaded] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setLoaded(true), 1600);
+    return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    if (!loaded) return;
+
+    const sections = document.querySelectorAll('[data-section]');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    sections.forEach(s => obs.observe(s));
+
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener('scroll', onScroll);
+
+    return () => { obs.disconnect(); window.removeEventListener('scroll', onScroll); };
+  }, [loaded]);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <>
+      {/* ── PAGE LOADER ── */}
+      <div className={`page-loader ${loaded ? 'loaded' : ''}`}>
+        <span>LOADING</span>
+      </div>
+
+      {/* ── NAVBAR ── */}
+      <nav
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 lg:px-14 py-4"
+        style={{
+          background: scrolled ? 'rgba(236,234,225,0.92)' : 'transparent',
+          backdropFilter: scrolled ? 'blur(14px)' : 'none',
+          borderBottom: scrolled ? '1px solid var(--rule)' : '1px solid transparent',
+          transition: 'background 0.4s ease, border-color 0.4s ease, backdrop-filter 0.4s ease',
+        }}
+      >
+        <a
+          href="#hero"
+          style={{ fontFamily: 'var(--display)', fontSize: '20px', letterSpacing: '0.08em', color: 'var(--ink)', textDecoration: 'none' }}
+        >
+          HUZAIFA.
+        </a>
+
+        <div className="hidden md:flex items-center gap-8">
+          {NAV_LINKS.map(l => (
+            <a key={l.label} href={l.href} className="nav-link">{l.label}</a>
+          ))}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+
+        <a href="mailto:sungpog89@gmail.com" className="pill-btn">
+          Hire Me
+        </a>
+      </nav>
+
+      {/* ── SECTIONS ── */}
+      <main>
+        <section data-section="0" id="hero">
+          <HeroSection loaded={loaded} />
+        </section>
+        <section data-section="1" id="about">
+          <AboutSection />
+        </section>
+        <section data-section="2" id="github">
+          <GitHubActivity />
+        </section>
+        <section data-section="3" id="projects">
+          <ProjectsSkills />
+        </section>
+        <section data-section="4" id="contact">
+          <ChatBlogContact />
+        </section>
       </main>
-    </div>
+    </>
   );
 }
